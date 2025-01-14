@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "42541818532",
+    "project_id": "flutter-project-40138",
+    "storage_bucket": "flutter-project-40138.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:42541818532:android:76953cc0cd518af8cd7c31",
+        "android_client_info": {
+          "package_name": "com.devman.cloneapp.bamtol_market_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqb72CB45X5IpkFod9yi98gLiHMc6jMrc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:42541818532:android:c06dd55fb4f1dd56cd7c31",
+        "android_client_info": {
+          "package_name": "com.example.todo_list"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqb72CB45X5IpkFod9yi98gLiHMc6jMrc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
