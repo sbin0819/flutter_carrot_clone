@@ -1,5 +1,7 @@
+import 'package:bamtol_market_app/src/common/components/app_font.dart';
+import 'package:bamtol_market_app/src/common/components/btn.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/route_manager.dart';
 
 class InitStartPage extends StatelessWidget {
   const InitStartPage({super.key});
@@ -18,27 +20,35 @@ class InitStartPage extends StatelessWidget {
                 'assets/images/logo_simbol.png',
               ),
             ),
-            Text(
+            const SizedBox(height: 40),
+            AppFont(
               '당신 근처의 밤톨마켓',
-              style: GoogleFonts.notoSans(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+              fontWeight: FontWeight.bold,
+              size: 20,
             ),
             const SizedBox(height: 15),
-            Text(
+            AppFont(
               '중고 거래부터 동네 정보까지, \n지금 내 동네를 선택하고 시작해보세요!',
               textAlign: TextAlign.center,
-              style: GoogleFonts.notoSans(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.white.withValues(
-                  alpha: 0.6,
-                ),
-              ),
+              size: 18,
+              color: Colors.white.withValues(alpha: 0.6),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(
+          left: 25,
+          right: 25,
+          bottom: 25 + Get.mediaQuery.padding.bottom,
+        ),
+        child: Btn(
+          onTap: () {},
+          child: AppFont(
+            '내 동네 설정하기',
+            textAlign: TextAlign.center,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
