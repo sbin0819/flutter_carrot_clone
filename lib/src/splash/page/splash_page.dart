@@ -2,6 +2,7 @@ import 'package:bamtol_market_app/src/common/components/app_font.dart';
 import 'package:bamtol_market_app/src/common/components/gtex_listener.dart';
 import 'package:bamtol_market_app/src/common/controller/authentication_controller.dart';
 import 'package:bamtol_market_app/src/common/controller/data_load_controller.dart';
+import 'package:bamtol_market_app/src/common/enum/authentication_status.dart';
 import 'package:bamtol_market_app/src/splash/controller/splash_controller.dart';
 import 'package:bamtol_market_app/src/splash/enum/step_type.dart';
 import 'package:flutter/material.dart';
@@ -14,15 +15,22 @@ class SplashPage extends GetView<SplashController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: GetxListener<bool>(
-          listen: (bool isLogined) {
-            if (isLogined) {
-              Get.offNamed('/home');
-            } else {
-              Get.offNamed('/login');
+        child: GetxListener<AuthenticationStatus>(
+          listen: (AuthenticationStatus status) {
+            switch (status) {
+              case AuthenticationStatus.authentication:
+                Get.offAllNamed('/home');
+                break;
+              case AuthenticationStatus.unAuthenticated:
+                break;
+              case AuthenticationStatus.unknown:
+                Get.offAllNamed('/login');
+                break;
+              case AuthenticationStatus.init:
+                break;
             }
           },
-          stream: Get.find<AuthenticationController>().isLogined,
+          stream: Get.find<AuthenticationController>().status,
           child: GetxListener<bool>(
             listen: (bool value) {
               if (value) {
