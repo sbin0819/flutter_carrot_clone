@@ -1,6 +1,6 @@
 import 'package:bamtol_market_app/main.dart';
 import 'package:bamtol_market_app/src/init/page/init_start_page.dart';
-import 'package:bamtol_market_app/src/splash/page/splash.dart';
+import 'package:bamtol_market_app/src/splash/page/splash_page.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatefulWidget {
@@ -20,6 +20,15 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return isInitStarted ? InitStartPage() : SplashPage();
+    return isInitStarted
+        ? InitStartPage(
+            onStart: () {
+              setState(() {
+                isInitStarted = false;
+              });
+              prefs.setBool('isInitStarted', isInitStarted);
+            },
+          )
+        : SplashPage();
   }
 }

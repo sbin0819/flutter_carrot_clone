@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 class InitStartPage extends StatelessWidget {
-  const InitStartPage({super.key});
+  final Function() onStart;
+
+  const InitStartPage({super.key, required this.onStart});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class InitStartPage extends StatelessWidget {
           bottom: 25 + Get.mediaQuery.padding.bottom,
         ),
         child: Btn(
-          onTap: () {},
+          onTap: onStart,
           child: AppFont(
             '내 동네 설정하기',
             textAlign: TextAlign.center,
