@@ -1,7 +1,10 @@
 import 'package:bamtol_market_app/src/common/components/app_font.dart';
+import 'package:bamtol_market_app/src/common/components/btn.dart';
+import 'package:bamtol_market_app/src/user/login/controller/login_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends GetView<LoginController> {
   const LoginPage({super.key});
 
   Widget _loginView() {
@@ -56,6 +59,48 @@ class LoginPage extends StatelessWidget {
     );
   }
 
+  Widget _snsLoginBtn() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 80),
+      child: Column(
+        children: [
+          Btn(
+            color: Colors.white,
+            onTap: controller.googleLogin,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/google.png'),
+                const SizedBox(width: 30),
+                AppFont(
+                  'Google로 시작하기',
+                  color: Colors.black,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 15),
+          Btn(
+            color: Colors.black,
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            onTap: controller.appleLogin,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/apple.png'),
+                const SizedBox(width: 30),
+                AppFont(
+                  'Apple로 시작하기',
+                  color: Colors.white,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +110,7 @@ class LoginPage extends StatelessWidget {
       children: [
         _loginView(),
         _textDivier(),
+        _snsLoginBtn(),
       ],
     ));
   }
