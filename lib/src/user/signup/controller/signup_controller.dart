@@ -13,16 +13,17 @@ class SignupController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    debounce(userNickName, (callback) {}, time: Duration(milliseconds: 500));
-  }
-
-  changeNickName(String nickName) {
-    userNickName(nickName);
+    debounce(userNickName, checkDuplicationNickName,
+        time: const Duration(milliseconds: 500));
   }
 
   checkDuplicationNickName(String value) async {
     var isPossibleUse = await _userRepository.checkDuplicationNickName(value);
     isPossibleUseNickName(isPossibleUse);
+  }
+
+  changeNickName(String nickName) {
+    userNickName(nickName);
   }
 
   Future<String?> signup() async {
