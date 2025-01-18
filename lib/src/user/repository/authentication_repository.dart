@@ -15,13 +15,7 @@ class AuthenticationRepository extends GetxService {
 
   Stream<UserModel?> get user {
     return _firebaseAuth.authStateChanges().map<UserModel?>((user) {
-      return user == null
-          ? null
-          : UserModel(
-              uid: user.uid,
-              name: user.displayName,
-              email: user.email,
-            );
+      return user == null ? null : UserModel(uid: user.uid);
     });
   }
 

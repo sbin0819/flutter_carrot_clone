@@ -7,6 +7,10 @@ import 'package:bamtol_market_app/src/splash/controller/splash_controller.dart';
 import 'package:bamtol_market_app/src/user/login/controller/login_controller.dart';
 import 'package:bamtol_market_app/src/user/login/page/login_page.dart';
 import 'package:bamtol_market_app/src/user/repository/authentication_repository.dart';
+import 'package:bamtol_market_app/src/user/repository/user_repository.dart';
+import 'package:bamtol_market_app/src/user/signup/controller/signup_controller.dart';
+import 'package:bamtol_market_app/src/user/signup/page/signup_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +34,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var db = FirebaseFirestore.instance;
+
     return GetMaterialApp(
       title: '당근마켓 클론 코딩',
       initialRoute: '/',
@@ -46,10 +52,15 @@ class MyApp extends StatelessWidget {
       initialBinding: BindingsBuilder(() {
         var authenticationRepository =
             AuthenticationRepository(FirebaseAuth.instance);
+        var userRepository = UserRepository(db);
         Get.put(authenticationRepository);
+        Get.put(userRepository);
         Get.put(SplashController());
         Get.put(DataLoadController());
-        Get.put(AuthenticationController(authenticationRepository));
+        Get.put(AuthenticationController(
+          authenticationRepository,
+          userRepository,
+        ));
       }),
       getPages: [
         GetPage(name: '/', page: () => const App()),
@@ -61,6 +72,18 @@ class MyApp extends StatelessWidget {
             Get.lazyPut<LoginController>(
                 () => LoginController(Get.find<AuthenticationRepository>()));
           }),
+        ),
+        GetPage(
+          name: '/signup/:uid',
+          page: () => SignupPage(),
+          binding: BindingsBuilder(
+            () {
+              Get.create<SignupController>(
+                () => SignupController(Get.find<UserRepository>(),
+                    Get.parameters['uid'] as String),
+              );
+            },
+          ),
         ),
       ],
     );

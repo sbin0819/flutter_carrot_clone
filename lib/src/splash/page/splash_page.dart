@@ -16,15 +16,18 @@ class SplashPage extends GetView<SplashController> {
     return Scaffold(
       body: Center(
         child: GetxListener<AuthenticationStatus>(
-          listen: (AuthenticationStatus status) {
+          listen: (AuthenticationStatus status) async {
             switch (status) {
               case AuthenticationStatus.authentication:
-                Get.offAllNamed('/home');
+                Get.offNamed('/home');
                 break;
               case AuthenticationStatus.unAuthenticated:
+                var userModel =
+                    Get.find<AuthenticationController>().userModel.value;
+                await Get.offNamed('/signup/${userModel.uid}');
                 break;
               case AuthenticationStatus.unknown:
-                Get.offAllNamed('/login');
+                Get.offNamed('/login');
                 break;
               case AuthenticationStatus.init:
                 break;
@@ -55,15 +58,10 @@ class SplashPage extends GetView<SplashController> {
                 }
               },
               stream: controller.loadStep,
-              child: _SplashView(),
+              child: const _SplashView(),
             ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          controller.loadStep(StepType.authCheck);
-        },
       ),
     );
   }
@@ -75,50 +73,53 @@ class _SplashView extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
-          width: 99,
-          height: 116,
-          child: Image.asset('assets/images/logo_simbol.png'),
-        ),
-        SizedBox(
-          height: 40,
-        ),
-        AppFont(
-          '당신 근처의 밤톨마켓',
-          fontWeight: FontWeight.bold,
-          size: 20,
-        ),
-        const SizedBox(height: 15),
-        AppFont(
-          '중고 거래부터 동네 정보까지, \n지금 내 동네를 선택하고 시작해보세요!',
-          textAlign: TextAlign.center,
-          size: 18,
-          color: Colors.white.withValues(alpha: 0.6),
+        const SizedBox(height: 200),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 99,
+                height: 116,
+                child: Image.asset(
+                  'assets/images/logo_simbol.png',
+                ),
+              ),
+              const SizedBox(height: 40),
+              const AppFont(
+                '당신 근처의 밤톨마켓',
+                fontWeight: FontWeight.bold,
+                size: 20,
+              ),
+              const SizedBox(height: 15),
+              AppFont(
+                '중고 거래부터 동네 정보까지, \n지금 내 동네를 선택하고 시작해보세요!',
+                align: TextAlign.center,
+                size: 18,
+                color: Colors.white.withValues(alpha: 0.7),
+              )
+            ],
+          ),
         ),
         SizedBox(
           height: 200,
           child: Column(
             children: [
               Obx(
-                () => Text(
-                  '${controller.loadStep.value.name}중 입니다.',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
+                () {
+                  return Text(
+                    '${controller.loadStep.value.name}중 입니다.',
+                    style: const TextStyle(color: Colors.white),
+                  );
+                },
               ),
-              SizedBox(
-                height: 20,
-              ),
-              CircularProgressIndicator(
-                strokeWidth: 1,
-                color: Colors.white,
-              )
+              const SizedBox(height: 20),
+              const CircularProgressIndicator(
+                  strokeWidth: 1, color: Colors.white)
             ],
           ),
-        ),
+        )
       ],
     );
   }

@@ -5,7 +5,7 @@ class AppFont extends StatelessWidget {
   final String text;
   final Color? color;
   final double? size;
-  final TextAlign? textAlign;
+  final TextAlign? align;
   final FontWeight? fontWeight;
 
   const AppFont(
@@ -13,7 +13,7 @@ class AppFont extends StatelessWidget {
     super.key,
     this.color = Colors.white,
     this.size,
-    this.textAlign,
+    this.align,
     this.fontWeight,
   });
 
@@ -21,7 +21,7 @@ class AppFont extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      textAlign: textAlign,
+      textAlign: align,
       style: GoogleFonts.notoSans(
         fontSize: size,
         fontWeight: fontWeight,

@@ -27,7 +27,7 @@ class LoginPage extends GetView<LoginController> {
         const SizedBox(height: 15),
         AppFont(
           '중고 거래부터 동네 정보까지, \n지금 내 동네를 선택하고 시작해보세요!',
-          textAlign: TextAlign.center,
+          align: TextAlign.center,
           size: 18,
           color: Colors.white.withValues(alpha: 0.6),
         ),
