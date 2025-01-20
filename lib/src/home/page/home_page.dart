@@ -36,6 +36,35 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: _ProductList(),
+      floatingActionButton: GestureDetector(
+        onTap: () async {
+          await Get.toNamed('/product/write');
+        },
+        behavior: HitTestBehavior.translucent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: Color(0xffed7738),
+              ),
+              child: Row(
+                children: [
+                  SvgPicture.asset('assets/svg/icons/plus.svg'),
+                  SizedBox(width: 6),
+                  AppFont(
+                    '글쓰기',
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
