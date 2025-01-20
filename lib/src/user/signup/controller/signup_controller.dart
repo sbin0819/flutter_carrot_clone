@@ -29,6 +29,7 @@ class SignupController extends GetxController {
   Future<String?> signup() async {
     var newUser = UserModel.create(userNickName.value, uid);
     var result = await _userRepository.signup(newUser);
+
     return result;
   }
 }

@@ -9,7 +9,7 @@ class UserRepository extends GetxService {
   Future<UserModel?> findUserOne(String uid) async {
     try {
       var doc = await db.collection('users').where('uid', isEqualTo: uid).get();
-      if (doc.docs.isNotEmpty) {
+      if (doc.docs.isEmpty) {
         return null;
       } else {
         return UserModel.fromJson(doc.docs.first.data());
@@ -19,13 +19,13 @@ class UserRepository extends GetxService {
     }
   }
 
-  Future<bool> checkDuplicationNickName(String nickName) async {
+  Future<bool> checkDuplicationNickName(String nickname) async {
     try {
       var doc = await db
           .collection('users')
-          .where('nickName', isEqualTo: nickName)
+          .where('nickname', isEqualTo: nickname)
           .get();
-      return doc.docs.isNotEmpty;
+      return doc.docs.isEmpty;
     } catch (e) {
       return false;
     }

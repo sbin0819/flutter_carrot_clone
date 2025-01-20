@@ -49,6 +49,7 @@ class SignupPage extends GetWidget<SignupController> {
         child: Obx(
           () => Btn(
             onTap: () async {
+              print('회원가입');
               if (!controller.isPossibleUseNickName.value) return;
               var result = await controller.signup();
               if (result != null) {
