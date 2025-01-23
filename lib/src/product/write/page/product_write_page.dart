@@ -1,5 +1,6 @@
 import 'package:bamtol_market_app/src/common/components/app_font.dart';
 import 'package:bamtol_market_app/src/common/components/checkbox.dart';
+import 'package:bamtol_market_app/src/common/components/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -45,25 +46,62 @@ class ProductWritePage extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _PhotoSelectedView(),
-            _divider,
-            _ProductTitleView(),
-            _divider,
-            _CategorySelectView(),
-            _divider,
-            _PriceSettingView(),
-            _divider,
-            _ProductDescription(),
-            Container(
-              height: 5,
-              color: Color.fromARGB(255, 12, 12, 15),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _PhotoSelectedView(),
+                  _divider,
+                  _ProductTitleView(),
+                  _divider,
+                  _CategorySelectView(),
+                  _divider,
+                  _PriceSettingView(),
+                  _divider,
+                  _ProductDescription(),
+                  Container(
+                    height: 5,
+                    color: Color.fromARGB(255, 12, 12, 15),
+                  ),
+                  _HopeTradeLocationMap(),
+                ],
+              ),
             ),
-            _HopeTradeLocationMap(),
-          ],
-        ),
+          ),
+          Container(
+            height: 40,
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: Color(0xff3c3c3e),
+                ),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SvgPicture.asset('assets/svg/icons/photo_small.svg'),
+                SizedBox(width: 10),
+                AppFont(
+                  '0/10',
+                  size: 13.0,
+                  color: Colors.white,
+                )
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: FocusScope.of(context).unfocus,
+            behavior: HitTestBehavior.translucent,
+            child: SvgPicture.asset(
+              'assets/svg/icons/keyboard-down.svg',
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -175,21 +213,10 @@ class _ProductTitleView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 25),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: '글 제목',
-          hintStyle: TextStyle(
-            color: Color(0xff6d7179),
-            fontSize: 16.0,
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide.none,
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide.none,
-          ),
-        ),
-        onChanged: (v) {},
+      child: CommonTextField(
+        hintText: '글 제목.',
+        onChange: (v) {},
+        hintColor: Color(0xff6d7179),
       ),
     );
   }
@@ -231,21 +258,11 @@ class _PriceSettingView extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: '₩ 가격 (선택 사항)',
-                hintStyle: TextStyle(
-                  color: Color(0xff6d7179),
-                  fontSize: 16.0,
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              onChanged: (v) {},
+            child: CommonTextField(
+              hintColor: Color(0xff6d7179),
+              hintText: '₩ 가격 (선택 사항)',
+              textInputType: TextInputType.number,
+              onChange: (v) {},
             ),
           ),
           CheckBox(
@@ -266,23 +283,12 @@ class _ProductDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 25),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: '아라동에 올린 게시글 내용을 작성해주세요.\n(판매 금지 물품은 게시가 제한될 수 있어요.)',
-          hintStyle: TextStyle(
-            color: Color(0xff6d7179),
-            fontSize: 16.0,
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide.none,
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide.none,
-          ),
-        ),
-        keyboardType: TextInputType.multiline,
+      child: CommonTextField(
+        hintColor: Color(0xff6d7179),
+        hintText: '아라동에 올린 게시글 내용을 작성해주세요.\n(판매 금지 물품은 게시가 제한될 수 있어요.)',
+        textInputType: TextInputType.multiline,
         maxLines: 10,
-        onChanged: (v) {},
+        onChange: (v) {},
       ),
     );
   }
