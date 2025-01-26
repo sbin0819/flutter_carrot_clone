@@ -1,9 +1,12 @@
 import 'package:bamtol_market_app/src/common/components/app_font.dart';
 import 'package:bamtol_market_app/src/common/components/checkbox.dart';
+import 'package:bamtol_market_app/src/common/components/multiful_image_view.dart';
 import 'package:bamtol_market_app/src/common/components/textfield.dart';
+import 'package:bamtol_market_app/src/product/write/controller/product_write_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 class ProductWritePage extends StatelessWidget {
   const ProductWritePage({super.key});
@@ -107,12 +110,19 @@ class ProductWritePage extends StatelessWidget {
   }
 }
 
-class _PhotoSelectedView extends StatelessWidget {
+class _PhotoSelectedView extends GetView<ProductWriteController> {
   const _PhotoSelectedView({super.key});
 
-  Widget _photoSelectedIcon() {
+  Widget _photoSelectIcon() {
     return GestureDetector(
-      onTap: () async {},
+      onTap: () async {
+        var selectedImages = await Get.to<List<AssetEntity>?>(
+          MultifulImageView(
+            initImages: controller.selectedImages,
+          ),
+        );
+        controller.changeSelectedImages(selectedImages);
+      },
       child: Container(
         width: 77,
         height: 77,
@@ -130,10 +140,12 @@ class _PhotoSelectedView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                AppFont(
-                  '0',
-                  size: 13.0,
-                  color: Color(0xff868b95),
+                Obx(
+                  () => AppFont(
+                    '${controller.selectedImages.length}',
+                    size: 13.0,
+                    color: Color(0xff868b95),
+                  ),
                 ),
                 AppFont(
                   '/10',
@@ -152,40 +164,49 @@ class _PhotoSelectedView extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 15),
       height: 77,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, right: 20),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: SizedBox(
-                    width: 67,
-                    height: 67,
-                    child: Container(
-                      color: Colors.red,
-                      child: Center(
-                        child: AppFont(
-                          index.toString(),
-                        ),
+      child: Obx(
+        () => ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: controller.selectedImages.length,
+          itemBuilder: (context, index) {
+            return Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, right: 20),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: SizedBox(
+                      width: 67,
+                      height: 67,
+                      child: FutureBuilder(
+                        future: controller.selectedImages[index].file,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Image.file(
+                              snapshot.data!,
+                              fit: BoxFit.cover,
+                            );
+                          } else {
+                            return Container();
+                          }
+                        },
                       ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                right: 10,
-                child: GestureDetector(
-                  onTap: () {},
-                  child: SvgPicture.asset('assets/svg/icons/remove.svg'),
+                Positioned(
+                  right: 10,
+                  child: GestureDetector(
+                    onTap: () {
+                      controller.deleteImage(index);
+                    },
+                    child: SvgPicture.asset('assets/svg/icons/remove.svg'),
+                  ),
                 ),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -196,7 +217,7 @@ class _PhotoSelectedView extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
       child: Row(
         children: [
-          _photoSelectedIcon(),
+          _photoSelectIcon(),
           Expanded(
             child: _selectedImageList(),
           )
@@ -206,7 +227,7 @@ class _PhotoSelectedView extends StatelessWidget {
   }
 }
 
-class _ProductTitleView extends StatelessWidget {
+class _ProductTitleView extends GetView<ProductWriteController> {
   const _ProductTitleView({super.key});
 
   @override
@@ -215,7 +236,7 @@ class _ProductTitleView extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 25),
       child: CommonTextField(
         hintText: '글 제목.',
-        onChange: (v) {},
+        onChange: controller.changeTitle,
         hintColor: Color(0xff6d7179),
       ),
     );
