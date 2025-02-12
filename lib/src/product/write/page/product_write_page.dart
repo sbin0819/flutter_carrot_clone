@@ -1,7 +1,9 @@
 import 'package:bamtol_market_app/src/common/components/app_font.dart';
 import 'package:bamtol_market_app/src/common/components/checkbox.dart';
 import 'package:bamtol_market_app/src/common/components/multiful_image_view.dart';
+import 'package:bamtol_market_app/src/common/components/product_category_selector.dart';
 import 'package:bamtol_market_app/src/common/components/textfield.dart';
+import 'package:bamtol_market_app/src/common/enum/market_enum.dart';
 import 'package:bamtol_market_app/src/product/write/controller/product_write_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -243,7 +245,7 @@ class _ProductTitleView extends GetView<ProductWriteController> {
   }
 }
 
-class _CategorySelectView extends StatelessWidget {
+class _CategorySelectView extends GetView<ProductWriteController> {
   const _CategorySelectView({super.key});
 
   @override
@@ -251,15 +253,24 @@ class _CategorySelectView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () async {
+          var selectedCategoryType = await Get.dialog<ProductCategoryType?>(
+            ProductCategorySelector(
+              initType: controller.product.value.categoryType,
+            ),
+          );
+          controller.changeCategoryType(selectedCategoryType);
+        },
         behavior: HitTestBehavior.translucent,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            AppFont(
-              '카테고리 선택',
-              size: 16.0,
-              color: Colors.white,
+            Obx(
+              () => AppFont(
+                controller.product.value.categoryType!.name,
+                size: 16.0,
+                color: Colors.white,
+              ),
             ),
             SvgPicture.asset('assets/svg/icons/right.svg'),
           ],
